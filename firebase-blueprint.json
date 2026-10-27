@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role and identity details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "avatarUrl": { "type": "string" },
+        "collegeOrHospital": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Book": {
+      "title": "Book",
+      "description": "Textbook repository item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "edition": { "type": "string" },
+        "description": { "type": "string" },
+        "coverColor": { "type": "string" },
+        "coverImage": { "type": "string" },
+        "orderIndex": { "type": "number" },
+        "isPublished": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "description", "isPublished"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Topic or clinical subject under a textbook",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "bookId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "orderIndex": { "type": "number" },
+        "isPublished": { "type": "boolean" },
+        "iconName": { "type": "string" }
+      },
+      "required": ["id", "bookId", "title", "isPublished"]
+    },
+    "Chapter": {
+      "title": "Chapter",
+      "description": "Clinical chapter belonging to a subject",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "bookId": { "type": "string" },
+        "subjectId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "orderIndex": { "type": "number" },
+        "estimatedMinutes": { "type": "number" },
+        "isPublished": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "bookId", "subjectId", "title", "isPublished"]
+    },
+    "StudyMaterial": {
+      "title": "StudyMaterial",
+      "description": "Rich medical study material for a chapter",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "chapterId": { "type": "string" },
+        "contentMarkdown": { "type": "string" },
+        "clinicalPearls": { "type": "array" },
+        "tables": { "type": "array" },
+        "references": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "chapterId"]
+    },
+    "MCQ": {
+      "title": "MCQ",
+      "description": "Multiple choice question for chapter self-assessment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "chapterId": { "type": "string" },
+        "question": { "type": "string" },
+        "options": { "type": "array" },
+        "correctIndex": { "type": "number" },
+        "explanation": { "type": "string" },
+        "difficulty": { "type": "string", "enum": ["Easy", "Medium", "Hard"] },
+        "isClinicalCase": { "type": "boolean" },
+        "clinicalCase": { "type": "object" },
+        "orderIndex": { "type": "number" }
+      },
+      "required": ["id", "chapterId", "question", "options", "correctIndex", "explanation", "difficulty"]
+    },
+    "MCQAttempt": {
+      "title": "MCQAttempt",
+      "description": "Record of a student quiz attempt",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "chapterId": { "type": "string" },
+        "score": { "type": "number" },
+        "total": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "incorrectCount": { "type": "number" },
+        "unattemptedCount": { "type": "number" },
+        "percentage": { "type": "number" },
+        "timeTakenSeconds": { "type": "number" },
+        "completedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "chapterId", "score", "total", "percentage"]
+    },
+    "MindMap": {
+      "title": "MindMap",
+      "description": "Interactive hierarchical node-edge concept graph",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "chapterId": { "type": "string" },
+        "title": { "type": "string" },
+        "rootNodeId": { "type": "string" },
+        "nodes": { "type": "array" },
+        "edges": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "chapterId", "title", "nodes", "edges"]
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "User bookmarked chapter, MCQ, or mind map",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["chapter", "studyMaterial", "mcq", "mindMap"] },
+        "targetId": { "type": "string" },
+        "chapterId": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "type", "targetId", "title"]
+    },
+    "Progress": {
+      "title": "Progress",
+      "description": "User study and test progress per chapter",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "chapterId": { "type": "string" },
+        "bookId": { "type": "string" },
+        "isCompleted": { "type": "boolean" },
+        "readingPercent": { "type": "number" },
+        "mindMapExplored": { "type": "boolean" },
+        "bestScore": { "type": "number" },
+        "lastAccessedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "chapterId", "bookId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles with role-based attributes"
+    },
+    "/books/{bookId}": {
+      "schema": { "$ref": "#/entities/Book" },
+      "description": "Medical textbooks catalog"
+    },
+    "/subjects/{subjectId}": {
+      "schema": { "$ref": "#/entities/Subject" },
+      "description": "Topics/subjects organized by textbook"
+    },
+    "/chapters/{chapterId}": {
+      "schema": { "$ref": "#/entities/Chapter" },
+      "description": "Textbook chapters"
+    },
+    "/studyMaterials/{materialId}": {
+      "schema": { "$ref": "#/entities/StudyMaterial" },
+      "description": "Clinical study notes, pearls, tables, and references"
+    },
+    "/mcqs/{mcqId}": {
+      "schema": { "$ref": "#/entities/MCQ" },
+      "description": "Multiple-choice questions and clinical cases"
+    },
+    "/mcqAttempts/{attemptId}": {
+      "schema": { "$ref": "#/entities/MCQAttempt" },
+      "description": "Quiz attempts by student"
+    },
+    "/mindMaps/{mapId}": {
+      "schema": { "$ref": "#/entities/MindMap" },
+      "description": "Visual concept nodes and edge trees"
+    },
+    "/bookmarks/{bookmarkId}": {
+      "schema": { "$ref": "#/entities/Bookmark" },
+      "description": "Student bookmarked items"
+    },
+    "/progress/{progressId}": {
+      "schema": { "$ref": "#/entities/Progress" },
+      "description": "Individual student chapter completion and test metrics"
+    }
+  }
+}

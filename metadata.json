@@ -1,0 +1,8 @@
+{
+  "name": "Medical Learning Hub",
+  "description": "Comprehensive Android medical learning platform for Medicine, Gynecology, and Obstetrics featuring interactive chapters, MCQs, mind maps, and full CMS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
